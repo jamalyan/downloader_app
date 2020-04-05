@@ -14,7 +14,7 @@ class Download extends Model
         'job_id'
     ];
 
-    protected $visible = ['url', 'status'];
+    protected $visible = ['url', 'status', 'resource_url'];
     protected $appends = ['resource_url', 'status'];
 
     /**
