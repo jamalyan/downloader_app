@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ac7407dc851b5e4eb9c002f1ba28c68",
+    "content-hash": "502da9c86eb09ece14677c70792e0e09",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -333,6 +333,66 @@
                 "trusted proxy"
             ],
             "time": "2020-02-22T01:51:47+00:00"
+        },
+        {
+            "name": "imtigger/laravel-job-status",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imTigger/laravel-job-status.git",
+                "reference": "cf64ee95cee0e6a99bdd48148cc6bb20a42d8fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imTigger/laravel-job-status/zipball/cf64ee95cee0e6a99bdd48148cc6bb20a42d8fd1",
+                "reference": "cf64ee95cee0e6a99bdd48148cc6bb20a42d8fd1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/contracts": ">=5.5",
+                "illuminate/database": ">=5.5",
+                "illuminate/queue": ">=5.5",
+                "illuminate/support": ">=5.5",
+                "nesbot/carbon": ">=1.21",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.11",
+                "orchestra/database": ">=3.5",
+                "orchestra/testbench": ">=3.5",
+                "phpunit/phpunit": ">=5.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Imtigger\\LaravelJobStatus\\LaravelJobStatusServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Imtigger\\LaravelJobStatus\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tiger",
+                    "email": "tiger@tiger-workshop.com"
+                }
+            ],
+            "description": "Laravel Job Status",
+            "keywords": [
+                "job",
+                "laravel",
+                "queue"
+            ],
+            "time": "2020-03-26T10:44:22+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

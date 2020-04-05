@@ -2,16 +2,18 @@
 
 namespace App\Jobs;
 
+use App\Models\Download;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use Imtigger\LaravelJobStatus\Trackable;
 
 class DownloaderJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Trackable;
 
     public $tries = 2;
     protected $url;
@@ -23,6 +25,7 @@ class DownloaderJob implements ShouldQueue
      */
     public function __construct(string $url)
     {
+        $this->prepareStatus();
         $this->url = $url;
     }
 
@@ -36,5 +39,9 @@ class DownloaderJob implements ShouldQueue
         $contents = file_get_contents($this->url);
         $name = time() . substr($this->url, strrpos($this->url, '/') + 1);
         Storage::disk('downloads')->put($name, $contents);
+        Download::query()->create([
+            'name' => $name,
+            'job_id' => $this->getJobStatusId(),
+        ]);
     }
 }
