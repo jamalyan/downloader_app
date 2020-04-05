@@ -38,7 +38,7 @@ class ListDownloads extends Command
      */
     public function handle()
     {
-        $downloads = Download::with('job')->get();
+        $downloads = Download::with('job')->orderBy('created_at', 'desc')->get();
         foreach ($downloads as $download) {
             echo $download->name . '(' . $download->status . ')' . ($download->resource_url ? ' -> ' . $download->resource_url : '') . "\n";
         }

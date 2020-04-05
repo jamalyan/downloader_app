@@ -1,35 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Helpers\DownloadHelper;
-use App\Http\Requests\Api\StoreUrlRequest;
+use App\Http\Requests\StoreUrlRequest;
 use App\Models\Download;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 class DownloadController extends Controller
 {
     use  DownloadHelper;
 
-    /**
-     * @return JsonResponse
-     */
     public function index()
     {
         /** @var Download $downloads */
         $downloads = Download::with('job')->orderBy('created_at', 'desc')->get();
 
-        return response()->json(['message' => 'success', 'downloads' => $downloads], 200);
+        return view('download', compact('downloads'));
     }
 
     /**
      * @param StoreUrlRequest $request
-     * @return JsonResponse
+     * @return RedirectResponse
      */
     public function store(StoreUrlRequest $request)
     {
         $this->createDownloadJob($request->get('url'));
-        return response()->json(['message' => 'Download successfully queued'], 200);
+        sleep(1);
+        return redirect()->back()->with('success', 'Download successfully queued');
     }
+
 }

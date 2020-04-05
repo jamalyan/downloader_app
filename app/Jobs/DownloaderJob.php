@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Download;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,16 +16,18 @@ class DownloaderJob implements ShouldQueue
 
     public $tries = 2;
     protected $url;
+    protected $name;
 
     /**
      * Create a new job instance.
      *
      * @param string $url
      */
-    public function __construct(string $url)
+    public function __construct(string $url, string $name)
     {
         $this->prepareStatus();
         $this->url = $url;
+        $this->name = $name;
     }
 
     /**
@@ -37,12 +38,6 @@ class DownloaderJob implements ShouldQueue
     public function handle()
     {
         $contents = file_get_contents($this->url);
-        $name = time() . '_' . substr($this->url, strrpos($this->url, '/') + 1);
-        Storage::disk('downloads')->put($name, $contents);
-        Download::query()->create([
-            'name' => $name,
-            'url' => $this->url,
-            'job_id' => $this->getJobStatusId(),
-        ]);
+        Storage::disk('downloads')->put($this->name, $contents);
     }
 }

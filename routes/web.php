@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'DownloadController@index')->name('downloads');
+Route::post('/', 'DownloadController@store')->name('downloads.store');

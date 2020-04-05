@@ -2,11 +2,14 @@
 
 namespace App\Console\Commands;
 
-use App\Jobs\DownloaderJob;
+use App\Http\Helpers\DownloadHelper;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
 
 class AddUrlToDownload extends Command
 {
+    use  DownloadHelper;
+
     /**
      * The name and signature of the console command.
      *
@@ -34,11 +37,21 @@ class AddUrlToDownload extends Command
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return bool
      */
     public function handle()
     {
-        DownloaderJob::dispatch($this->argument('url'));
+        $validator = Validator::make(['url' => $this->argument('url')], ['url' => 'required|string|url']);
+
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
+            return false;
+        }
+
+        $this->createDownloadJob($this->argument('url'));
         echo("download queued \n");
+        return true;
     }
 }
