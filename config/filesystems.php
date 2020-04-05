@@ -50,7 +50,9 @@ return [
 
         'downloads' => [
             'driver' => 'local',
-            'root' => storage_path('app/downloads'),
+            'root' => storage_path('app/public/downloads'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
         ],
 
         'public' => [

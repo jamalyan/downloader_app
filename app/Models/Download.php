@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Imtigger\LaravelJobStatus\JobStatus;
+use Illuminate\Support\Facades\Storage;
 
 class Download extends Model
 {
     protected $fillable = [
         'name',
+        'url',
         'job_id'
     ];
+
+    protected $visible = ['url', 'status'];
+    protected $appends = ['resource_url', 'status'];
 
     /**
      * @return BelongsTo
@@ -27,5 +31,13 @@ class Download extends Model
     public function getStatusAttribute()
     {
         return $this->job->status;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResourceUrlAttribute()
+    {
+        return Storage::disk('downloads')->exists($this->attributes['name']) ? url('storage/downloads/' . $this->attributes['name']) : null;
     }
 }

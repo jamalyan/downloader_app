@@ -37,10 +37,11 @@ class DownloaderJob implements ShouldQueue
     public function handle()
     {
         $contents = file_get_contents($this->url);
-        $name = time() . substr($this->url, strrpos($this->url, '/') + 1);
+        $name = time() . '_' . substr($this->url, strrpos($this->url, '/') + 1);
         Storage::disk('downloads')->put($name, $contents);
         Download::query()->create([
             'name' => $name,
+            'url' => $this->url,
             'job_id' => $this->getJobStatusId(),
         ]);
     }

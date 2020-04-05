@@ -16,6 +16,7 @@ class CreateDownloadsTable extends Migration
         Schema::create('downloads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('name');
+            $table->text('url');
             $table->string('job_id')->nullable();
             $table->timestamps();
         });
